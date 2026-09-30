@@ -7,12 +7,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "ТВОЙ_API_KEY",
+    apiKey: "AIzaSyAc3AmOxOEs3wIjSOZ-f8J48rhxvnyLmy4",
     authDomain: "ashvein-ab1f6.firebaseapp.com",
     projectId: "ashvein-ab1f6",
     storageBucket: "ashvein-ab1f6.firebasestorage.app",
     messagingSenderId: "557942192610",
-    appId: "ТВОЙ_APP_ID"
+    appId: "1:557942192610:web:35b0dcd8cca525b7a9e1bb",
+    measurementId: "G-PR2W65NYV9"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -43,3 +44,4 @@ export async function placeOrder(userId, cartItems, total) {
         createdAt: new Date().toISOString()
     });
 }
+db.collection('products').get()

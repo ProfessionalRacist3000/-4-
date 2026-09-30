@@ -1,89 +1,807 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="ru">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/12.19.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/12.19.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/12.19.0/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AshVein — Merch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      --bg: #0b0a0a;
+      --panel: #151313;
+      --line: #2b2626;
+      --txt: #e9e4df;
+      --mut: #8d8580;
+      --red: #c1121f;
+      --ash: #b9b2ab
+    }
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    html {
+      scroll-padding-top: 70px;
+      scroll-behavior: smooth
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'Space Mono', ui-monospace, monospace;
+      font-size: 14px;
+      background-image: radial-gradient(circle at 20% 0, #2a0a0d55, transparent 40%), repeating-linear-gradient(115deg, #ffffff05 0 2px, transparent 2px 9px)
+    }
+
+    h1,
+    h2,
+    h3,
+    .logo {
+      font-family: Anton, Impact, 'Arial Narrow', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-weight: 400;
+      margin: 0
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      color: inherit
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 20px;
+      background: #0b0a0aee;
+      border-bottom: 2px solid var(--red);
+      backdrop-filter: blur(6px);
+      flex-wrap: wrap
+    }
+
+    .logo {
+      font-size: 28px;
+      color: var(--txt);
+      text-decoration: none
+    }
+
+    .logo b {
+      color: var(--red);
+      font-weight: 400
+    }
+
+    nav {
+      display: flex;
+      gap: 14px;
+      flex: 1;
+      flex-wrap: wrap
+    }
+
+    nav a {
+      color: var(--ash);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: .12em
+    }
+
+    nav a:hover {
+      color: var(--red)
+    }
+
+    .hbtns {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .btn {
+      background: transparent;
+      border: 1px solid var(--ash);
+      padding: 8px 14px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-size: 12px
+    }
+
+    .btn:hover {
+      border-color: var(--red);
+      color: var(--red)
+    }
+
+    .btn.red {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff
+    }
+
+    .btn.red:hover {
+      background: #e01a2a;
+      color: #fff
+    }
+
+    .cnt {
+      background: var(--red);
+      color: #fff;
+      border-radius: 10px;
+      padding: 0 6px;
+      margin-left: 4px;
+      font-size: 11px
+    }
+
+    .hero {
+      padding: 70px 20px 50px;
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden
+    }
+
+    .hero h1 {
+      font-size: clamp(64px, 17vw, 190px);
+      line-height: .9;
+      color: var(--txt);
+      text-shadow: 4px 4px 0 var(--red), -2px -2px 0 #ffffff14
+    }
+
+    .hero p {
+      max-width: 560px;
+      margin: 18px auto 24px;
+      color: var(--mut)
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--red);
+      color: var(--red);
+      padding: 3px 10px;
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 18px
+    }
+
+    section {
+      padding: 44px 20px;
+      max-width: 1200px;
+      margin: 0 auto
+    }
+
+    section h2 {
+      font-size: 38px;
+      margin-bottom: 6px
+    }
+
+    section h2::after {
+      content: "";
+      display: block;
+      width: 70px;
+      height: 4px;
+      background: var(--red);
+      margin-top: 8px
+    }
+
+    .sub {
+      color: var(--mut);
+      margin: 0 0 22px
+    }
+
+    .ctabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 22px
+    }
+
+    .ctabs button {
+      background: transparent;
+      border: 1px solid var(--line);
+      padding: 9px 16px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-size: 12px
+    }
+
+    .ctabs button:hover {
+      border-color: var(--red)
+    }
+
+    .ctabs button.on {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff
+    }
+
+    .ctabs small {
+      opacity: .7;
+      margin-left: 4px
+    }
+
+    nav a.on {
+      color: var(--red)
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      position: relative;
+      display: flex;
+      flex-direction: column
+    }
+
+    .card:hover {
+      border-color: var(--red);
+      transform: translateY(-3px);
+      transition: .15s
+    }
+
+    .pic {
+      aspect-ratio: 1;
+      background: #0f0d0d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .pic svg {
+      width: 78%
+    }
+
+    .info {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1
+    }
+
+    .info h3 {
+      font-size: 19px
+    }
+
+    .price {
+      color: var(--red);
+      font-weight: 700
+    }
+
+    .row {
+      display: flex;
+      gap: 6px;
+      margin-top: auto
+    }
+
+    .row .btn {
+      flex: 1;
+      padding: 8px 6px
+    }
+
+    .fav {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #0b0a0acc;
+      border: 1px solid var(--line);
+      width: 34px;
+      height: 34px;
+      font-size: 17px;
+      line-height: 1
+    }
+
+    .fav.on {
+      color: var(--red);
+      border-color: var(--red)
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: #000b;
+      z-index: 40;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px
+    }
+
+    .overlay.open {
+      display: flex
+    }
+
+    .modal {
+      background: var(--panel);
+      border: 2px solid var(--red);
+      width: 100%;
+      max-width: 400px;
+      padding: 22px;
+      max-height: 100%;
+      overflow: auto
+    }
+
+    .modal h2 {
+      font-size: 30px;
+      margin-bottom: 12px
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 14px
+    }
+
+    .tabs button {
+      flex: 1;
+      background: none;
+      border: 0;
+      border-bottom: 2px solid var(--line);
+      padding: 8px;
+      text-transform: uppercase
+    }
+
+    .tabs button.on {
+      border-color: var(--red);
+      color: var(--red)
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--mut);
+      margin: 10px 0 4px
+    }
+
+    input {
+      width: 100%;
+      background: #0b0a0a;
+      border: 1px solid var(--line);
+      color: var(--txt);
+      padding: 10px;
+      font: inherit
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--red)
+    }
+
+    .rules {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0;
+      font-size: 12px;
+      color: var(--mut)
+    }
+
+    .rules li::before {
+      content: "✕ ";
+      color: var(--red)
+    }
+
+    .rules li.ok {
+      color: #7ad07a
+    }
+
+    .rules li.ok::before {
+      content: "✓ ";
+      color: #7ad07a
+    }
+
+    .err {
+      color: #ff6b6b;
+      font-size: 12px;
+      min-height: 16px;
+      margin: 8px 0
+    }
+
+    .note {
+      background: #2a0a0d;
+      border-left: 3px solid var(--red);
+      padding: 8px 10px;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: none
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(400px, 100%);
+      background: var(--panel);
+      border-left: 2px solid var(--red);
+      z-index: 45;
+      transform: translateX(100%);
+      transition: .25s;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      padding-top: calc(16px + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px))
+    }
+
+    .drawer.open {
+      transform: none
+    }
+
+    .drawer .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .drawer h2 {
+      font-size: 28px
+    }
+
+    .list {
+      flex: 1;
+      overflow: auto;
+      margin: 12px 0
+    }
+
+    .item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .item .th {
+      width: 54px;
+      height: 54px;
+      background: #0f0d0d;
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .item .th svg {
+      width: 80%
+    }
+
+    .item .n {
+      flex: 1
+    }
+
+    .item small {
+      color: var(--mut)
+    }
+
+    .q {
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .q button {
+      width: 26px;
+      height: 26px;
+      background: none;
+      border: 1px solid var(--line)
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      margin-bottom: 10px
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 26px 20px;
+      text-align: center;
+      color: var(--mut);
+      font-size: 12px
+    }
+
+    .toast {
+      position: fixed;
+      bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--red);
+      color: #fff;
+      padding: 10px 18px;
+      z-index: 60;
+      display: none
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="#top">Ash<b>Vein</b></a>
+    <nav>
+      <a href="#catalog" data-tab="all">Каталог</a><a href="#catalog" data-tab="tees">Футболки</a><a href="#catalog"
+        data-tab="hoodies">Худи</a><a href="#catalog" data-tab="acc">Аксессуары</a><a href="#catalog"
+        data-tab="kids">Детям</a>
+    </nav>
+    <div class="hbtns">
+      <button class="btn" id="favBtn">♥<span class="cnt" id="favCnt">0</span></button>
+      <button class="btn" id="cartBtn">Корзина<span class="cnt" id="cartCnt">0</span></button>
+      <span id="userLbl" style="color:var(--mut);font-size:12px"></span>
+      <button class="btn red" id="authBtn">Войти</button>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+  </header>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+  <div class="hero" id="top">
+    <div class="tag">Official Merch // Hardcore</div>
+    <h1>AshVein</h1>
+    <p>Пепел в жилах. Шум в ушах. Носи то, что звучит громче слов.</p>
+    <a class="btn red" href="#catalog" style="text-decoration:none;display:inline-block">В каталог</a>
+  </div>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
+  <div id="catalog"></div>
+
+  <footer>© 2026 AshVein. Stay heavy. <div id="mode" style="margin-top:6px"></div>
+  </footer>
+
+  <div class="overlay" id="authOv">
+    <div class="modal">
+      <h2>Доступ</h2>
+      <div class="note" id="authNote">Войди, чтобы добавлять товары в корзину и избранное.</div>
+      <div class="tabs"><button id="tabIn" class="on">Вход</button><button id="tabUp">Регистрация</button></div>
+      <div id="nameWrap" style="display:none"><label>Имя</label><input id="fName" autocomplete="nickname"></div>
+      <label>Email</label><input id="fEmail" type="email" autocomplete="email">
+      <label>Пароль</label><input id="fPass" type="password" autocomplete="current-password">
+      <ul class="rules" id="rules">
+        <li data-r="up">Одна заглавная буква</li>
+        <li data-r="dg">Одна цифра</li>
+        <li data-r="uq">Нет повторяющихся символов</li>
+      </ul>
+      <div class="err" id="authErr"></div>
+      <div style="display:flex;gap:8px"><button class="btn red" id="authGo" style="flex:1">Войти</button><button
+          class="btn" id="authX">Отмена</button></div>
+    </div>
+  </div>
+
+  <div class="drawer" id="cartDr">
+    <div class="head">
+      <h2>Корзина</h2><button class="btn" data-close>✕</button>
+    </div>
+    <div class="list" id="cartList"></div>
+    <div class="total"><span>Итого</span><b id="cartTot"></b></div><button class="btn red" id="buy">Оформить
+      заказ</button>
+  </div>
+  <div class="drawer" id="favDr">
+    <div class="head">
+      <h2>Избранное</h2><button class="btn" data-close>✕</button>
+    </div>
+    <div class="list" id="favList"></div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-auth-compat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
+  <script>
+    // ===== FIREBASE: вставь свой конфиг из Firebase Console =====
+    const FIREBASE_CONFIG = { apiKey: "AIzaSyAc3AmOxOEs3wIjSOZ-f8J48rhxvnyLmy4", authDomain: "ashvein-ab1f6.firebaseapp.com", projectId: "ashvein-ab1f6", appId: "1:557942192610:web:35b0dcd8cca525b7a9e1bb", measurementId: "G-PR2W65NYV9" };
+    // ============================================================
+    const $ = s => document.querySelector(s);
+    const kzt = n => n.toLocaleString('ru-RU') + ' ₸';
+    const CATS = [
+      { id: 'tees', t: 'Футболки', s: 'Плотный хлопок. Принты, которые не стираются из памяти.', k: 'tee' },
+      { id: 'hoodies', t: 'Худи', s: 'Тяжёлый футер для холодных подвалов и громких сетов.', k: 'hood' },
+      { id: 'acc', t: 'Аксессуары', s: 'Мелочи, по которым свои узнают своих.', k: 'acc' },
+      { id: 'kids', t: 'Детская одежда', s: 'Будущее хардкора начинается рано.', k: 'kid' }];
+    let P = [];
+
+    let TABS = [];
+    let tab = 'all';
+
+    function renderCatalog() {
+      TABS = [
+        { id: 'all', t: 'Все', s: 'Полный каталог AshVein. Всё, что есть на складе.' },
+        ...CATS.map(c => ({ id: c.id, t: c.t, s: c.s }))
+      ];
+
+      $('#catalog').innerHTML =
+        `<section id="shop"><h2>Каталог</h2><p class="sub" id="tabSub"></p>
+    <div class="ctabs" id="ctabs">` +
+        TABS.map(x =>
+          `<button data-t="${x.id}">${x.t}<small>${x.id === 'all' ? P.length : P.filter(p => p.c === x.id).length
+          }</small></button>`
+        ).join('') +
+        `</div><div class="grid" id="grid"></div></section>`;
+
+      $('#ctabs').addEventListener('click', e => {
+        const button = e.target.closest('[data-t]');
+        if (button) setTab(button.dataset.t);
       });
-    </script>
-  </body>
+
+      document.querySelector('nav').addEventListener('click', e => {
+        const link = e.target.closest('[data-tab]');
+        if (link) setTab(link.dataset.tab);
+      });
+
+      setTab(tab);
+
+      if (P.length === 0) {
+        $('#grid').innerHTML = '<p class="sub">В каталоге пока нет товаров.</p>';
+      }
+    }
+
+    function setTab(id) {
+      tab = id;
+      const category = TABS.find(x => x.id === id);
+
+      $('#tabSub').textContent = category.s;
+      document.querySelectorAll('#ctabs button')
+        .forEach(button => button.classList.toggle('on', button.dataset.t === id));
+      document.querySelectorAll('nav a[data-tab]')
+        .forEach(link => link.classList.toggle('on', link.dataset.tab === id));
+
+      $('#grid').innerHTML = P
+        .filter(product => id === 'all' || product.c === id)
+        .map(product => `<div class="card">
+      <button class="fav" data-fav="${product.id}" title="В избранное">♥</button>
+      <div class="pic">${art(product)}</div>
+      <div class="info"><h3>${product.n}</h3>
+      <span class="price">${kzt(product.p)}</span>
+      <div class="row"><button class="btn red" data-cart="${product.id}">В корзину</button></div>
+      </div>
+    </div>`).join('');
+
+      if (typeof render === 'function' && window.__ready) render();
+    }
+
+    async function loadProducts() {
+      try {
+        const snapshot = await db.collection('products').get();
+        P = snapshot.docs.map(doc => ({
+          id: Number(doc.id),
+          ...doc.data()
+        }));
+        renderCatalog();
+      } catch (error) {
+        console.error('Не удалось загрузить товары из Firestore:', error);
+        $('#catalog').innerHTML = '<p class="sub">Не удалось загрузить каталог.</p>';
+      }
+    }
+    const kind = c => CATS.find(x => x.id === c).k;
+    function art(p) {
+      const k = kind(p.c), f = p.col, st = 'stroke="#b9b2ab" stroke-width="3" stroke-linejoin="round"';
+      const logo = '<text x="100" y="118" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="26" fill="#c1121f">ASHVEIN</text><path d="M78 128h44M88 136h24" stroke="#e9e4df" stroke-width="2"/>';
+      let b;
+      if (k === 'tee') b = `<path d="M70 30l-45 25 15 35 20-8v90h80V82l20 8 15-35-45-25c-8 12-52 12-60 0z" fill="${f}" ${st}/>${logo}`;
+      else if (k === 'hood') b = `<path d="M62 28l-40 30 14 40 20-8v82h88V90l20 8 14-40-40-30c-6 18-70 18-76 0z" fill="${f}" ${st}/><path d="M78 30c4 22 40 22 44 0" fill="none" ${st}/><rect x="72" y="140" width="56" height="26" fill="none" stroke="#b9b2ab" stroke-width="2"/>${logo.replace('y="118"', 'y="104"').replace('128h44M88 136h24', '112h44')}`;
+      else if (p.n.includes('Кепка')) b = `<path d="M40 120c0-50 30-70 60-70s60 20 60 70z" fill="${f}" ${st}/><path d="M150 118c25 2 40 8 40 14s-40 10-90 4" fill="${f}" ${st}/><text x="100" y="100" text-anchor="middle" font-family="Anton,sans-serif" font-size="20" fill="#c1121f">AV</text>`;
+      else if (p.n.includes('патч')) b = `<circle cx="70" cy="80" r="34" fill="${f}" ${st} stroke-dasharray="6 4"/><rect x="108" y="60" width="60" height="44" fill="#151313" ${st} stroke-dasharray="6 4"/><rect x="70" y="124" width="70" height="34" fill="#c1121f" ${st}/><text x="70" y="88" text-anchor="middle" font-family="Anton,sans-serif" font-size="22" fill="#e9e4df">AV</text>`;
+      else b = `<path d="M60 70h80l12 100H48z" fill="${f}" ${st}/><path d="M78 70c0-40 44-40 44 0" fill="none" ${st}/><text x="100" y="130" text-anchor="middle" font-family="Anton,sans-serif" font-size="22" fill="#c1121f">ASHVEIN</text>`;
+      const sc = k === 'kid' ? 'transform="translate(30 30) scale(.7)"' : '';
+      return `<svg viewBox="0 0 200 200"><g ${sc}>${b}</g></svg>`;
+    }
+
+    // ---------- состояние ----------
+    let user = null, cart = {}, favs = [], mode = 'signin';
+    const useFB = !FIREBASE_CONFIG.apiKey.startsWith('YOUR') && window.firebase;
+    let auth, db;
+    if (useFB) { try { firebase.initializeApp(FIREBASE_CONFIG); auth = firebase.auth(); db = firebase.firestore(); } catch (e) { console.error(e) } }
+    if (db) loadProducts();
+    const live = !!auth;
+    $('#mode').textContent = live ? 'Auth: Firebase' : 'Демо-режим: данные хранятся локально (укажи Firebase-конфиг в коде)';
+    const LS = { g: k => { try { return JSON.parse(localStorage.getItem(k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } } };
+    async function saveData() {
+      if (!user) return; const d = { cart, favs };
+      if (live) { try { await db.collection('users').doc(user.uid).set(d, { merge: true }) } catch (e) { console.error(e) } }
+      else LS.s('av_data_' + user.uid, d);
+    }
+    async function loadData() {
+      let d = null;
+      if (live) { try { const s = await db.collection('users').doc(user.uid).get(); d = s.exists ? s.data() : null } catch (e) { console.error(e) } }
+      else d = LS.g('av_data_' + user.uid);
+      cart = (d && d.cart) || {}; favs = (d && d.favs) || [];
+    }
+    function toast(m) { const t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => t.style.display = 'none', 1800) }
+
+    // ---------- валидация пароля ----------
+    function checkPass(p) { return { up: /[A-ZА-ЯЁ]/.test(p), dg: /\d/.test(p), uq: p.length > 0 && new Set([...p]).size === p.length } }
+    function showRules() {
+      const r = checkPass($('#fPass').value);
+      document.querySelectorAll('#rules li').forEach(li => li.classList.toggle('ok', r[li.dataset.r]));
+      return r.up && r.dg && r.uq;
+    }
+    $('#fPass').addEventListener('input', showRules);
+
+    // ---------- авторизация ----------
+    function setMode(m) {
+      mode = m; $('#tabIn').classList.toggle('on', m === 'signin'); $('#tabUp').classList.toggle('on', m === 'signup');
+      $('#nameWrap').style.display = m === 'signup' ? 'block' : 'none'; $('#authGo').textContent = m === 'signup' ? 'Создать' : 'Войти';
+      $('#rules').style.display = m === 'signup' ? 'block' : 'none'; $('#authErr').textContent = '';
+    }
+    function openAuth(note) { setMode('signin'); $('#authNote').style.display = note ? 'block' : 'none'; $('#authOv').classList.add('open') }
+    const closeAuth = () => $('#authOv').classList.remove('open');
+    $('#tabIn').onclick = () => setMode('signin'); $('#tabUp').onclick = () => setMode('signup'); $('#authX').onclick = closeAuth;
+    $('#authOv').onclick = e => { if (e.target.id === 'authOv') closeAuth() };
+    async function sha(s) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('') }
+    $('#authGo').onclick = async () => {
+      const email = $('#fEmail').value.trim().toLowerCase(), pass = $('#fPass').value, name = $('#fName').value.trim(), E = $('#authErr');
+      E.textContent = '';
+      if (!/^\S+@\S+\.\S+$/.test(email)) return E.textContent = 'Введи корректный email';
+      if (mode === 'signup' && !showRules()) return E.textContent = 'Пароль не соответствует условиям';
+      if (!pass) return E.textContent = 'Введи пароль';
+      try {
+        if (live) {
+          if (mode === 'signup') {
+            const c = await auth.createUserWithEmailAndPassword(email, pass);
+            await c.user.updateProfile({ displayName: name || email.split('@')[0] });
+            await db.collection('users').doc(c.user.uid).set({ email, name: name || email.split('@')[0], createdAt: firebase.firestore.FieldValue.serverTimestamp(), cart: {}, favs: [] });
+            await setUser({ uid: c.user.uid, email, name: name || email.split('@')[0] });
+          }
+          else await auth.signInWithEmailAndPassword(email, pass);
+        } else {
+          const users = LS.g('av_users') || {}, h = await sha(pass);
+          if (mode === 'signup') {
+            if (users[email]) return E.textContent = 'Такой email уже зарегистрирован';
+            users[email] = { uid: 'u' + Date.now(), name: name || email.split('@')[0], h }; LS.s('av_users', users);
+          }
+          else if (!users[email] || users[email].h !== h) return E.textContent = 'Неверный email или пароль';
+          const u = users[email]; LS.s('av_session', email); await setUser({ uid: u.uid, email, name: u.name });
+        }
+        closeAuth(); $('#fPass').value = ''; showRules();
+      } catch (e) { E.textContent = ({ 'auth/email-already-in-use': 'Email уже занят', 'auth/invalid-credential': 'Неверный email или пароль', 'auth/wrong-password': 'Неверный пароль', 'auth/user-not-found': 'Пользователь не найден' })[e.code] || ('Ошибка: ' + (e.message || e.code)) }
+    };
+    async function setUser(u) { user = u; if (u) await loadData(); else { cart = {}; favs = [] } render() }
+    if (live) auth.onAuthStateChanged(async u => { if (u) await setUser({ uid: u.uid, email: u.email, name: u.displayName || u.email.split('@')[0] }); else setUser(null) });
+    else { const em = LS.g('av_session'), us = LS.g('av_users') || {}; if (em && us[em]) setUser({ uid: us[em].uid, email: em, name: us[em].name }); else render() }
+    $('#authBtn').onclick = async () => { if (user) { if (live) await auth.signOut(); else { LS.s('av_session', null); await setUser(null) } toast('Ты вышел') } else openAuth(false) };
+
+    // ---------- корзина / избранное ----------
+    const need = () => { if (!user) { openAuth(true); return false } return true };
+    document.addEventListener('click', e => {
+      const c = e.target.closest('[data-cart]'), f = e.target.closest('[data-fav]');
+      if (c && need()) { cart[c.dataset.cart] = (cart[c.dataset.cart] || 0) + 1; saveData(); render(); toast('Добавлено в корзину') }
+      if (f && need()) { const id = +f.dataset.fav; favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id]; saveData(); render() }
+      const q = e.target.closest('[data-q]'); if (q) { const [id, d] = q.dataset.q.split(':'); cart[id] = (cart[id] || 0) + +d; if (cart[id] <= 0) delete cart[id]; saveData(); render() }
+      const rf = e.target.closest('[data-rf]'); if (rf) { favs = favs.filter(x => x !== +rf.dataset.rf); saveData(); render() }
+      if (e.target.closest('[data-close]')) document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
+    });
+    const drawer = id => { if (!need()) return; document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open')); $(id).classList.add('open') };
+    $('#cartBtn').onclick = () => drawer('#cartDr'); $('#favBtn').onclick = () => drawer('#favDr');
+    $('#buy').onclick = () => { if (!Object.keys(cart).length) return toast('Корзина пуста'); cart = {}; saveData(); render(); toast('Заказ оформлен (демо)') };
+    const th = p => `<div class="th">${art(p)}</div>`;
+    function render() {
+      $('#authBtn').textContent = user ? 'Выйти' : 'Войти'; $('#userLbl').textContent = user ? user.name : '';
+      const ids = Object.keys(cart), n = ids.reduce((a, i) => a + cart[i], 0);
+      $('#cartCnt').textContent = n; $('#favCnt').textContent = favs.length;
+      document.querySelectorAll('[data-fav]').forEach(b => b.classList.toggle('on', favs.includes(+b.dataset.fav)));
+      let tot = 0;
+      $('#cartList').innerHTML = ids.length ? ids.map(i => {
+        const p = P.find(x => x.id == i); tot += p.p * cart[i];
+        return `<div class="item">${th(p)}<div class="n">${p.n}<br><small>${kzt(p.p)}</small></div><div class="q"><button data-q="${i}:-1">−</button>${cart[i]}<button data-q="${i}:1">+</button></div></div>`
+      }).join('') : '<p class="sub">Пока пусто.</p>';
+      $('#cartTot').textContent = kzt(tot);
+      $('#favList').innerHTML = favs.length ? favs.map(i => {
+        const p = P.find(x => x.id == i);
+        return `<div class="item">${th(p)}<div class="n">${p.n}<br><small>${kzt(p.p)}</small></div><button class="btn red" data-cart="${i}">＋</button><button class="btn" data-rf="${i}">✕</button></div>`
+      }).join('') : '<p class="sub">Пока пусто.</p>';
+    }
+    window.__ready = 1; render(); showRules(); setMode('signin');
+  </script>
+  <script src="src/firebase.js"></script>
+</body>
+
 </html>

@@ -598,7 +598,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
   <script>
     // ===== FIREBASE: вставь свой конфиг из Firebase Console =====
-    const FIREBASE_CONFIG = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT.firebaseapp.com", projectId: "YOUR_PROJECT", appId: "YOUR_APP_ID" };
+    const FIREBASE_CONFIG = { apiKey: "AIzaSyAc3AmOxOEs3wIjSOZ-f8J48rhxvnyLmy4", authDomain: "ashvein-ab1f6.firebaseapp.com", projectId: "ashvein-ab1f6", appId: "1:557942192610:web:35b0dcd8cca525b7a9e1bb", measurementId: "G-PR2W65NYV9" };
     // ============================================================
     const $ = s => document.querySelector(s);
     const kzt = n => n.toLocaleString('ru-RU') + ' ₸';
@@ -607,15 +607,80 @@
       { id: 'hoodies', t: 'Худи', s: 'Тяжёлый футер для холодных подвалов и громких сетов.', k: 'hood' },
       { id: 'acc', t: 'Аксессуары', s: 'Мелочи, по которым свои узнают своих.', k: 'acc' },
       { id: 'kids', t: 'Детская одежда', s: 'Будущее хардкора начинается рано.', k: 'kid' }];
-    const P = [
-      { id: 1, c: 'tees', n: 'Ash Veins Tee', p: 15000, col: '#1a1a1a' }, { id: 2, c: 'tees', n: 'Burn Out Tee', p: 16000, col: '#5a0d13' },
-      { id: 3, c: 'tees', n: 'Scar Tissue Tee', p: 15500, col: '#2b2b2b' }, { id: 4, c: 'tees', n: 'Tour 2026 Tee', p: 17500, col: '#3a3a3a' },
-      { id: 5, c: 'hoodies', n: 'Pit Hoodie', p: 33000, col: '#161616' }, { id: 6, c: 'hoodies', n: 'Blood Ash Zip', p: 36000, col: '#5a0d13' },
-      { id: 7, c: 'hoodies', n: 'Vein Logo Hoodie', p: 32000, col: '#2d2d2d' },
-      { id: 8, c: 'acc', n: 'Кепка AV', p: 10000, col: '#1a1a1a' }, { id: 9, c: 'acc', n: 'Набор патчей', p: 5000, col: '#5a0d13' },
-      { id: 10, c: 'acc', n: 'Шоппер Ash', p: 7000, col: '#2d2d2d' },
-      { id: 11, c: 'kids', n: 'Mini Mosh Tee', p: 11500, col: '#5a0d13' }, { id: 12, c: 'kids', n: 'Little Riot Hoodie', p: 21000, col: '#1a1a1a' },
-      { id: 13, c: 'kids', n: 'Baby Bodysuit', p: 9000, col: '#2d2d2d' }];
+    let P = [];
+
+    let TABS = [];
+    let tab = 'all';
+
+    function renderCatalog() {
+      TABS = [
+        { id: 'all', t: 'Все', s: 'Полный каталог AshVein. Всё, что есть на складе.' },
+        ...CATS.map(c => ({ id: c.id, t: c.t, s: c.s }))
+      ];
+
+      $('#catalog').innerHTML =
+        `<section id="shop"><h2>Каталог</h2><p class="sub" id="tabSub"></p>
+    <div class="ctabs" id="ctabs">` +
+        TABS.map(x =>
+          `<button data-t="${x.id}">${x.t}<small>${x.id === 'all' ? P.length : P.filter(p => p.c === x.id).length
+          }</small></button>`
+        ).join('') +
+        `</div><div class="grid" id="grid"></div></section>`;
+
+      $('#ctabs').addEventListener('click', e => {
+        const button = e.target.closest('[data-t]');
+        if (button) setTab(button.dataset.t);
+      });
+
+      document.querySelector('nav').addEventListener('click', e => {
+        const link = e.target.closest('[data-tab]');
+        if (link) setTab(link.dataset.tab);
+      });
+
+      setTab(tab);
+
+      if (P.length === 0) {
+        $('#grid').innerHTML = '<p class="sub">В каталоге пока нет товаров.</p>';
+      }
+    }
+
+    function setTab(id) {
+      tab = id;
+      const category = TABS.find(x => x.id === id);
+
+      $('#tabSub').textContent = category.s;
+      document.querySelectorAll('#ctabs button')
+        .forEach(button => button.classList.toggle('on', button.dataset.t === id));
+      document.querySelectorAll('nav a[data-tab]')
+        .forEach(link => link.classList.toggle('on', link.dataset.tab === id));
+
+      $('#grid').innerHTML = P
+        .filter(product => id === 'all' || product.c === id)
+        .map(product => `<div class="card">
+      <button class="fav" data-fav="${product.id}" title="В избранное">♥</button>
+      <div class="pic">${art(product)}</div>
+      <div class="info"><h3>${product.n}</h3>
+      <span class="price">${kzt(product.p)}</span>
+      <div class="row"><button class="btn red" data-cart="${product.id}">В корзину</button></div>
+      </div>
+    </div>`).join('');
+
+      if (typeof render === 'function' && window.__ready) render();
+    }
+
+    async function loadProducts() {
+      try {
+        const snapshot = await db.collection('products').get();
+        P = snapshot.docs.map(doc => ({
+          id: Number(doc.id),
+          ...doc.data()
+        }));
+        renderCatalog();
+      } catch (error) {
+        console.error('Не удалось загрузить товары из Firestore:', error);
+        $('#catalog').innerHTML = '<p class="sub">Не удалось загрузить каталог.</p>';
+      }
+    }
     const kind = c => CATS.find(x => x.id === c).k;
     function art(p) {
       const k = kind(p.c), f = p.col, st = 'stroke="#b9b2ab" stroke-width="3" stroke-linejoin="round"';
@@ -629,28 +694,13 @@
       const sc = k === 'kid' ? 'transform="translate(30 30) scale(.7)"' : '';
       return `<svg viewBox="0 0 200 200"><g ${sc}>${b}</g></svg>`;
     }
-    // ---------- каталог с ярлыками ----------
-    const TABS = [{ id: 'all', t: 'Все', s: 'Полный каталог AshVein. Всё, что есть на складе.' }, ...CATS.map(c => ({ id: c.id, t: c.t, s: c.s }))];
-    let tab = 'all';
-    $('#catalog').innerHTML = `<section id="shop"><h2>Каталог</h2><p class="sub" id="tabSub"></p><div class="ctabs" id="ctabs">` +
-      TABS.map(x => `<button data-t="${x.id}">${x.t}<small>${x.id === 'all' ? P.length : P.filter(p => p.c === x.id).length}</small></button>`).join('') + `</div><div class="grid" id="grid"></div></section>`;
-    function setTab(id) {
-      tab = id; const T = TABS.find(x => x.id === id);
-      $('#tabSub').textContent = T.s;
-      document.querySelectorAll('#ctabs button').forEach(b => b.classList.toggle('on', b.dataset.t === id));
-      document.querySelectorAll('nav a[data-tab]').forEach(a => a.classList.toggle('on', a.dataset.tab === id));
-      $('#grid').innerHTML = P.filter(p => id === 'all' || p.c === id).map(p => `<div class="card"><button class="fav" data-fav="${p.id}" title="В избранное">♥</button><div class="pic">${art(p)}</div><div class="info"><h3>${p.n}</h3><span class="price">${kzt(p.p)}</span><div class="row"><button class="btn red" data-cart="${p.id}">В корзину</button></div></div></div>`).join('');
-      if (typeof render === 'function' && window.__ready) render();
-    }
-    $('#ctabs').addEventListener('click', e => { const b = e.target.closest('[data-t]'); if (b) setTab(b.dataset.t) });
-    document.querySelector('nav').addEventListener('click', e => { const a = e.target.closest('[data-tab]'); if (a) setTab(a.dataset.tab) });
-    setTab('all');
 
     // ---------- состояние ----------
     let user = null, cart = {}, favs = [], mode = 'signin';
     const useFB = !FIREBASE_CONFIG.apiKey.startsWith('YOUR') && window.firebase;
     let auth, db;
     if (useFB) { try { firebase.initializeApp(FIREBASE_CONFIG); auth = firebase.auth(); db = firebase.firestore(); } catch (e) { console.error(e) } }
+    if (db) loadProducts();
     const live = !!auth;
     $('#mode').textContent = live ? 'Auth: Firebase' : 'Демо-режим: данные хранятся локально (укажи Firebase-конфиг в коде)';
     const LS = { g: k => { try { return JSON.parse(localStorage.getItem(k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } } };
