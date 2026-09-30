@@ -1,0 +1,132 @@
+mutation CreateCategory @auth(level: USER) {
+  category_insert(data: { name: "Electronics" })
+}
+
+mutation UpdateCategory($id: UUID!, $name: String) @auth(level: USER) {
+  category_update(key: { id: $id }, data: { name: $name })
+}
+
+mutation DeleteCategory($id: UUID!) @auth(level: USER) {
+  category_delete(key: { id: $id })
+}
+
+query GetCategory($id: UUID!) @auth(level: PUBLIC, insecureReason: "Categories are public information.") {
+  category(id: $id) { id name slug }
+}
+
+query ListCategories @auth(level: PUBLIC, insecureReason: "Categories are public information.") {
+  categories { id name slug }
+}
+
+mutation CreateOrder($total: Float!, $status: String!) @auth(level: USER) {
+  order_insert(data: {
+    totalAmount: $total,
+    status: $status,
+    userId_expr: "auth.uid"
+  })
+}
+
+mutation UpdateOrder($id: UUID!, $status: String) @auth(level: USER) {
+  order_update(key: { id: $id }, data: { status: $status })
+}
+
+mutation DeleteOrder($id: UUID!) @auth(level: USER) {
+  order_delete(key: { id: $id })
+}
+
+query GetOrder($id: UUID!) @auth(level: USER) {
+  order(key: { id: $id }) { id totalAmount status userId }
+}
+
+query ListMyOrders @auth(level: USER) {
+  orders(where: { userId: { eq_expr: "auth.uid" } }) { id totalAmount status }
+}
+
+mutation CreateOrderItem($qty: Int!, $price: Float!, $orderId: UUID!, $productId: UUID!) @auth(level: USER) {
+  orderItem_insert(data: {
+    quantity: $qty,
+    priceAtPurchase: $price,
+    orderId: $orderId,
+    productId: $productId
+  })
+}
+
+mutation UpdateOrderItem($id: UUID!, $qty: Int) @auth(level: USER) {
+  orderItem_update(key: { id: $id }, data: { quantity: $qty })
+}
+
+mutation DeleteOrderItem($id: UUID!) @auth(level: USER) {
+  orderItem_delete(key: { id: $id })
+}
+
+query GetOrderItem($id: UUID!) @auth(level: USER) {
+  orderItem(key: { id: $id }) { id quantity priceAtPurchase }
+}
+
+query ListOrderItems($orderId: UUID!) @auth(level: USER) {
+  orderItems(where: { orderId: { eq: $orderId } }) { id quantity }
+}
+
+mutation CreateProduct($name: String!, $price: Float!, $stock: Int!) @auth(level: USER) {
+  product_insert(data: { name: $name, price: $price, stockQuantity: $stock })
+}
+
+mutation UpdateProduct($id: UUID!, $price: Float) @auth(level: USER) {
+  product_update(key: { id: $id }, data: { price: $price })
+}
+
+mutation DeleteProduct($id: UUID!) @auth(level: USER) {
+  product_delete(key: { id: $id })
+}
+
+query GetProduct($id: UUID!) @auth(level: PUBLIC, insecureReason: "Product catalog is public.") {
+  product(id: $id) { id name price description }
+}
+
+query ListProducts @auth(level: PUBLIC, insecureReason: "Product catalog is public.") {
+  products { id name price }
+}
+
+mutation CreateUser($email: String!, $name: String!) @auth(level: USER) {
+  user_insert(data: { id_expr: "auth.uid", email: $email, displayName: $name })
+}
+
+mutation UpdateUser($name: String) @auth(level: USER) {
+  user_update(key: { id_expr: "auth.uid" }, data: { displayName: $name })
+}
+
+mutation DeleteUser @auth(level: USER) {
+  user_delete(key: { id_expr: "auth.uid" })
+}
+
+query GetMyProfile @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) { id email displayName }
+}
+
+query ListUsers @auth(level: USER) {
+  users { id displayName }
+}
+
+mutation CreateUserPreference($catId: UUID!, $score: Int) @auth(level: USER) {
+  userPreference_insert(data: {
+    categoryId: $catId,
+    userId_expr: "auth.uid",
+    interactionScore: $score
+  })
+}
+
+mutation UpdateUserPreference($id: UUID!, $score: Int) @auth(level: USER) {
+  userPreference_update(key: { id: $id }, data: { interactionScore: $score })
+}
+
+mutation DeleteUserPreference($id: UUID!) @auth(level: USER) {
+  userPreference_delete(key: { id: $id })
+}
+
+query GetUserPreference($id: UUID!) @auth(level: USER) {
+  userPreference(key: { id: $id }) { id interactionScore categoryId }
+}
+
+query ListMyPreferences @auth(level: USER) {
+  userPreferences(where: { userId: { eq_expr: "auth.uid" } }) { id interactionScore categoryId }
+}

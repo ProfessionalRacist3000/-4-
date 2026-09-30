@@ -1,0 +1,41 @@
+type User @table {
+  email: String!
+  displayName: String!
+  preferredCategories: [String]
+  shippingAddress: String
+}
+
+type Category @table {
+  name: String!
+  slug: String
+}
+
+type Product @table {
+  name: String!
+  price: Float!
+  stockQuantity: Int!
+  description: String
+  imageUrl: String
+  isFeatured: Boolean
+  category: Category
+}
+
+type Order @table {
+  totalAmount: Float!
+  status: String!
+  trackingNumber: String
+  user: User!
+}
+
+type OrderItem @table {
+  quantity: Int!
+  priceAtPurchase: Float!
+  order: Order!
+  product: Product!
+}
+
+type UserPreference @table {
+  interactionScore: Int
+  user: User!
+  category: Category!
+}
