@@ -368,7 +368,8 @@
       margin: 10px 0 4px
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       background: #0b0a0a;
       border: 1px solid var(--line);
@@ -377,7 +378,8 @@
       font: inherit
     }
 
-    input:focus {
+    input:focus,
+    select:focus {
       outline: none;
       border-color: var(--red)
     }
@@ -555,6 +557,28 @@
 
   <div id="catalog"></div>
 
+  <section id="adminPanel" hidden>
+    <h2>Добавить товар</h2>
+    <p class="sub">Новый товар появится в каталоге после сохранения.</p>
+    <form id="productForm" style="max-width:520px">
+      <label for="productName">Название</label>
+      <input id="productName" maxlength="100" required>
+      <label for="productCategory">Категория</label>
+      <select id="productCategory" required>
+        <option value="tees">Футболки</option>
+        <option value="hoodies">Худи</option>
+        <option value="acc">Аксессуары</option>
+        <option value="kids">Детская одежда</option>
+      </select>
+      <label for="productPrice">Цена, ₸</label>
+      <input id="productPrice" type="number" min="1" max="100000000" step="1" required>
+      <label for="productColor">Цвет (HEX)</label>
+      <input id="productColor" value="#1a1a1a" pattern="#[0-9A-Fa-f]{6}" required>
+      <div class="err" id="productErr" role="status"></div>
+      <button class="btn red" type="submit">Сохранить товар</button>
+    </form>
+  </section>
+
   <footer>© 2026 AshVein. Stay heavy. <div id="mode" style="margin-top:6px"></div>
   </footer>
 
@@ -608,6 +632,7 @@
       { id: 'acc', t: 'Аксессуары', s: 'Мелочи, по которым свои узнают своих.', k: 'acc' },
       { id: 'kids', t: 'Детская одежда', s: 'Будущее хардкора начинается рано.', k: 'kid' }];
     let P = [];
+    let isAdmin = false;
 
     let TABS = [];
     let tab = 'all';
@@ -630,11 +655,6 @@
       $('#ctabs').addEventListener('click', e => {
         const button = e.target.closest('[data-t]');
         if (button) setTab(button.dataset.t);
-      });
-
-      document.querySelector('nav').addEventListener('click', e => {
-        const link = e.target.closest('[data-tab]');
-        if (link) setTab(link.dataset.tab);
       });
 
       setTab(tab);
@@ -667,6 +687,11 @@
 
       if (typeof render === 'function' && window.__ready) render();
     }
+
+    document.querySelector('nav').addEventListener('click', e => {
+      const link = e.target.closest('[data-tab]');
+      if (link) setTab(link.dataset.tab);
+    });
 
     async function loadProducts() {
       try {
@@ -704,6 +729,19 @@
     const live = !!auth;
     $('#mode').textContent = live ? 'Auth: Firebase' : 'Демо-режим: данные хранятся локально (укажи Firebase-конфиг в коде)';
     const LS = { g: k => { try { return JSON.parse(localStorage.getItem(k)) } catch (e) { return null } }, s: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) { } } };
+    async function loadAdminRole(uid) {
+      isAdmin = false;
+      $('#adminPanel').hidden = true;
+      if (!live || !uid) return;
+
+      try {
+        const role = await db.collection('admins').doc(uid).get();
+        isAdmin = role.exists && role.data().enabled === true;
+        $('#adminPanel').hidden = !isAdmin;
+      } catch (error) {
+        console.error('Не удалось проверить права администратора:', error);
+      }
+    }
     async function saveData() {
       if (!user) return; const d = { cart, favs };
       if (live) { try { await db.collection('users').doc(user.uid).set(d, { merge: true }) } catch (e) { console.error(e) } }
@@ -716,6 +754,43 @@
       cart = (d && d.cart) || {}; favs = (d && d.favs) || [];
     }
     function toast(m) { const t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => t.style.display = 'none', 1800) }
+
+    $('#productForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!isAdmin || !db) return;
+
+      const name = $('#productName').value.trim();
+      const category = $('#productCategory').value;
+      const price = Number($('#productPrice').value);
+      const color = $('#productColor').value.trim();
+      const error = $('#productErr');
+      error.textContent = '';
+
+      if (!name || name.length > 100 || !Number.isFinite(price) || price <= 0 || price > 100000000 || !/^#[0-9a-fA-F]{6}$/.test(color)) {
+        error.textContent = 'Проверь название, цену и HEX-цвет.';
+        return;
+      }
+
+      const submit = $('#productForm').querySelector('[type="submit"]');
+      submit.disabled = true;
+      try {
+        const ids = P.map(product => product.id).filter(Number.isSafeInteger);
+        const id = ids.length ? Math.max(...ids) + 1 : 1;
+        const product = { c: category, n: name, p: price, col: color };
+        await db.collection('products').doc(String(id)).set(product);
+        P.push({ id, ...product });
+        renderCatalog();
+        render();
+        $('#productForm').reset();
+        $('#productColor').value = '#1a1a1a';
+        toast('Товар добавлен');
+      } catch (saveError) {
+        console.error('Не удалось сохранить товар:', saveError);
+        error.textContent = 'Не удалось сохранить товар. Проверь подключение и права.';
+      } finally {
+        submit.disabled = false;
+      }
+    });
 
     // ---------- валидация пароля ----------
     function checkPass(p) { return { up: /[A-ZА-ЯЁ]/.test(p), dg: /\d/.test(p), uq: p.length > 0 && new Set([...p]).size === p.length } }
@@ -764,7 +839,19 @@
         closeAuth(); $('#fPass').value = ''; showRules();
       } catch (e) { E.textContent = ({ 'auth/email-already-in-use': 'Email уже занят', 'auth/invalid-credential': 'Неверный email или пароль', 'auth/wrong-password': 'Неверный пароль', 'auth/user-not-found': 'Пользователь не найден' })[e.code] || ('Ошибка: ' + (e.message || e.code)) }
     };
-    async function setUser(u) { user = u; if (u) await loadData(); else { cart = {}; favs = [] } render() }
+    async function setUser(u) {
+      user = u;
+      if (u) {
+        await loadData();
+        await loadAdminRole(u.uid);
+      } else {
+        cart = {};
+        favs = [];
+        isAdmin = false;
+        $('#adminPanel').hidden = true;
+      }
+      render();
+    }
     if (live) auth.onAuthStateChanged(async u => { if (u) await setUser({ uid: u.uid, email: u.email, name: u.displayName || u.email.split('@')[0] }); else setUser(null) });
     else { const em = LS.g('av_session'), us = LS.g('av_users') || {}; if (em && us[em]) setUser({ uid: us[em].uid, email: em, name: us[em].name }); else render() }
     $('#authBtn').onclick = async () => { if (user) { if (live) await auth.signOut(); else { LS.s('av_session', null); await setUser(null) } toast('Ты вышел') } else openAuth(false) };
@@ -801,7 +888,6 @@
     }
     window.__ready = 1; render(); showRules(); setMode('signin');
   </script>
-  <script src="src/firebase.js"></script>
 </body>
 
 </html>

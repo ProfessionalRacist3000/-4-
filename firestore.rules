@@ -2,9 +2,65 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Products contain public catalog fields; user profiles are private to their UID.
+    // Admin roles are stored separately as admins/{Auth UID} with enabled: true.
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.enabled == true;
+    }
+
+    function isValidUserProfile() {
+      return request.resource.data.keys().hasAll(['email', 'name', 'cart', 'favs'])
+        && request.resource.data.keys().hasOnly(['email', 'name', 'createdAt', 'cart', 'favs'])
+        && request.resource.data.email is string
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.cart is map
+        && request.resource.data.cart.keys().size() <= 100
+        && request.resource.data.favs is list
+        && request.resource.data.favs.size() <= 100
+        && (!('createdAt' in request.resource.data) || request.resource.data.createdAt is timestamp);
+    }
+
+    function isValidProduct() {
+      return request.resource.data.keys().hasAll(['c', 'n', 'p', 'col'])
+        && request.resource.data.keys().hasOnly(['c', 'n', 'p', 'col'])
+        && request.resource.data.c in ['tees', 'hoodies', 'acc', 'kids']
+        && request.resource.data.n is string
+        && request.resource.data.n.size() > 0
+        && request.resource.data.n.size() <= 100
+        && request.resource.data.p is number
+        && request.resource.data.p > 0
+        && request.resource.data.p <= 100000000
+        && request.resource.data.col is string
+        && request.resource.data.col.matches('^#[0-9A-Fa-f]{6}$');
+    }
+
+    match /admins/{userId} {
+      allow get: if request.auth != null && request.auth.uid == userId;
+      allow list, create, update, delete: if false;
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserProfile();
+      allow update: if isOwner(userId)
+        && isValidUserProfile()
+        && (!('createdAt' in resource.data) || request.resource.data.createdAt == resource.data.createdAt);
+      allow list, delete: if false;
+    }
+
     match /products/{productId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidProduct();
+      allow delete: if isAdmin();
     }
 
     match /{document=**} {
