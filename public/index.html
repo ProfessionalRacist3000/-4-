@@ -1247,6 +1247,7 @@
         imageUploaded = true;
         const product = {
           c: category,
+          cs: categoryDescription,
           n: name,
           p: price,
           col: color,
@@ -1275,48 +1276,13 @@
       }
     });
 
-    async function updateProductImage(productId, file) {
-      if (!isAdmin || !db || !storage) return;
-      if (!isValidProductImage(file)) {
-        toast('Выбери JPG, PNG или WebP размером до 5 МБ.');
-        return;
-      }
+   
 
       const product = P.find(item => String(item.id) === productId);
       if (!product) return;
 
-      let uploadedImage;
-      try {
-        uploadedImage = await uploadProductImage(productId, file);
-        await db.collection('products').doc(productId).update({
-          imagePath: uploadedImage.imagePath,
-          imageUrl: uploadedImage.imageUrl
-        });
+      
 
-        const oldImagePath = product.imagePath;
-        P = P.map(item => String(item.id) === productId
-          ? { ...item, imagePath: uploadedImage.imagePath, imageUrl: uploadedImage.imageUrl }
-          : item);
-
-        if (oldImagePath) {
-          try {
-            await storage.ref(oldImagePath).delete();
-          } catch (error) {
-            console.error('Не удалось удалить старый файл изображения:', error);
-          }
-        }
-
-        renderCatalog();
-        render();
-        toast('Фото обновлено');
-      } catch (error) {
-        console.error('Не удалось обновить фото товара:', error);
-        if (uploadedImage) {
-          await uploadedImage.imageRef.delete().catch(cleanupError => console.error('Не удалось удалить новое изображение:', cleanupError));
-        }
-        toast('Не удалось сохранить фото. Проверь подключение и права.');
-      }
-    }
 
     async function deleteProduct(productId) {
       if (!isAdmin || !db) return;
