@@ -31,7 +31,7 @@ service cloud.firestore {
 
     function isValidProduct() {
       return request.resource.data.keys().hasAll(['c', 'n', 'p', 'col'])
-        && request.resource.data.keys().hasOnly(['c', 'n', 'p', 'col'])
+        && request.resource.data.keys().hasOnly(['c', 'n', 'p', 'col', 'imageUrl', 'imagePath'])
         && request.resource.data.c in ['tees', 'hoodies', 'acc', 'kids']
         && request.resource.data.n is string
         && request.resource.data.n.size() > 0
@@ -40,7 +40,13 @@ service cloud.firestore {
         && request.resource.data.p > 0
         && request.resource.data.p <= 100000000
         && request.resource.data.col is string
-        && request.resource.data.col.matches('^#[0-9A-Fa-f]{6}$');
+        && request.resource.data.col.matches('^#[0-9A-Fa-f]{6}$')
+        && (!('imageUrl' in request.resource.data)
+          || (request.resource.data.imageUrl is string
+            && request.resource.data.imageUrl.matches('^https://firebasestorage\\.googleapis\\.com/.*$')))
+        && (!('imagePath' in request.resource.data)
+          || (request.resource.data.imagePath is string
+            && request.resource.data.imagePath.matches('^products/[0-9]+/[A-Za-z0-9_.-]{1,200}$')));
     }
 
     match /admins/{userId} {

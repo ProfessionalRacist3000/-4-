@@ -161,6 +161,251 @@
       color: var(--mut)
     }
 
+    .band-page {
+      display: none
+    }
+
+    body.page-about .band-page {
+      display: block
+    }
+
+    .band-intro {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      gap: 40px;
+      align-items: center;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .band-copy .tag {
+      margin-bottom: 16px
+    }
+
+    .band-copy h1 {
+      font-size: 88px;
+      line-height: .95;
+      margin-bottom: 18px;
+      text-shadow: 3px 3px 0 var(--red)
+    }
+
+    .band-copy p {
+      max-width: 520px;
+      color: var(--mut);
+      line-height: 1.7
+    }
+
+    .band-copy .band-lead {
+      color: var(--txt);
+      font-size: 19px
+    }
+
+    .band-photo-placeholder {
+      aspect-ratio: 4 / 3;
+      min-height: 180px;
+      border: 1px dashed #655c56;
+      background-color: #131111;
+      background-image: repeating-linear-gradient(135deg, #ffffff08 0 1px, transparent 1px 12px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--ash);
+      text-align: center;
+      text-transform: uppercase
+    }
+
+    img.band-photo-placeholder {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+      border: 0;
+      background: none
+    }
+
+    .band-photo-placeholder span {
+      font-family: Anton, Impact, sans-serif;
+      font-size: 24px
+    }
+
+    .band-photo-placeholder small {
+      color: var(--mut);
+      font-size: 10px
+    }
+
+    .band-photo-wide {
+      aspect-ratio: 16 / 10
+    }
+
+    .profile-page {
+      display: none
+    }
+
+    body.page-profile .profile-page {
+      display: block
+    }
+
+    .profile-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr);
+      gap: 48px;
+      align-items: start
+    }
+
+    .profile-layout[hidden],
+    .profile-guest[hidden] {
+      display: none
+    }
+
+    .profile-overview {
+      border-left: 3px solid var(--red);
+      padding: 4px 0 4px 22px
+    }
+
+    .profile-overview h2 {
+      font-size: 36px;
+      margin: 10px 0
+    }
+
+    .profile-email,
+    .profile-role {
+      color: var(--mut);
+      overflow-wrap: anywhere
+    }
+
+    .profile-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line)
+    }
+
+    .profile-stat strong {
+      display: block;
+      color: var(--txt);
+      font-size: 22px
+    }
+
+    .profile-stat span {
+      color: var(--mut);
+      font-size: 11px;
+      text-transform: uppercase
+    }
+
+    .profile-form {
+      max-width: 460px
+    }
+
+    .profile-form h2 {
+      font-size: 28px
+    }
+
+    .profile-guest {
+      max-width: 620px;
+      padding: 24px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line)
+    }
+
+    @media (max-width: 760px) {
+      .profile-layout {
+        grid-template-columns: 1fr;
+        gap: 32px
+      }
+    }
+
+    .band-section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px
+    }
+
+    .band-section-head span,
+    .member-number,
+    .open-role-label {
+      color: var(--red);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px
+    }
+
+    .member-photo {
+      aspect-ratio: 4 / 5;
+      margin-bottom: 14px
+    }
+
+    .member-meta {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px
+    }
+
+    .member-meta h3,
+    .open-role h3 {
+      font-size: 24px
+    }
+
+    .member-meta p,
+    .open-role p {
+      margin: 4px 0 0;
+      color: var(--mut)
+    }
+
+    .open-role {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 36px;
+      padding: 22px 0;
+      border-top: 1px solid var(--red);
+      border-bottom: 1px solid var(--line)
+    }
+
+    @media (max-width: 760px) {
+      .band-intro {
+        grid-template-columns: 1fr;
+        gap: 24px
+      }
+
+      .band-copy h1 {
+        font-size: 60px
+      }
+
+      .member-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px
+      }
+
+      .open-role {
+        align-items: flex-start;
+        flex-direction: column
+      }
+    }
+
+    @media (max-width: 480px) {
+      .member-grid {
+        grid-template-columns: 1fr
+      }
+
+      .band-section-head {
+        align-items: flex-start;
+        flex-direction: column
+      }
+    }
+
     .tag {
       display: inline-block;
       border: 1px solid var(--red);
@@ -263,6 +508,12 @@
 
     .pic svg {
       width: 78%
+    }
+
+    .pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
     }
 
     .info {
@@ -444,6 +695,67 @@
       transform: none
     }
 
+    .drawer.page-view {
+      position: relative;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      width: 100%;
+      max-width: 1200px;
+      min-height: calc(100vh - 150px);
+      margin: 0 auto;
+      background: transparent;
+      border: 0;
+      z-index: auto;
+      transform: none;
+      transition: none;
+      padding: 44px 20px 60px;
+      display: none
+    }
+
+    .drawer.page-view.open {
+      display: block
+    }
+
+    .drawer.page-view .head {
+      justify-content: flex-start;
+      gap: 16px;
+      margin-bottom: 18px
+    }
+
+    .drawer.page-view .head .btn {
+      flex: none
+    }
+
+    .drawer.page-view .list {
+      max-width: 900px;
+      overflow: visible;
+      margin: 18px 0 28px
+    }
+
+    .drawer.page-view .total {
+      max-width: 900px
+    }
+
+    body.page-cart #top,
+    body.page-cart #catalog,
+    body.page-cart #adminPanel,
+    body.page-cart footer,
+    body.page-favorites #top,
+    body.page-favorites #catalog,
+    body.page-favorites #adminPanel,
+    body.page-favorites footer,
+    body.page-about #top,
+    body.page-about #catalog,
+    body.page-about #adminPanel,
+    body.page-about footer,
+    body.page-profile #top,
+    body.page-profile #catalog,
+    body.page-profile #adminPanel,
+    body.page-profile footer {
+      display: none
+    }
+
     .drawer .head {
       display: flex;
       justify-content: space-between;
@@ -538,12 +850,13 @@
     <nav>
       <a href="#catalog" data-tab="all">Каталог</a><a href="#catalog" data-tab="tees">Футболки</a><a href="#catalog"
         data-tab="hoodies">Худи</a><a href="#catalog" data-tab="acc">Аксессуары</a><a href="#catalog"
-        data-tab="kids">Детям</a>
+        data-tab="kids">Детям</a><a href="?view=about" data-page="about">О группе</a>
     </nav>
     <div class="hbtns">
-      <button class="btn" id="favBtn">♥<span class="cnt" id="favCnt">0</span></button>
+      <button class="btn" id="favBtn">♥ Избранное<span class="cnt" id="favCnt">0</span></button>
       <button class="btn" id="cartBtn">Корзина<span class="cnt" id="cartCnt">0</span></button>
       <span id="userLbl" style="color:var(--mut);font-size:12px"></span>
+      <button class="btn" id="profileBtn" hidden>Профиль</button>
       <button class="btn red" id="authBtn">Войти</button>
     </div>
   </header>
@@ -556,6 +869,101 @@
   </div>
 
   <div id="catalog"></div>
+
+  <main class="band-page" id="aboutPage" aria-labelledby="aboutTitle">
+    <section class="band-intro">
+      <div class="band-copy">
+        <div class="tag">О группе / Алматы</div>
+        <h1 id="aboutTitle">AshVein</h1>
+        <p class="band-lead">Алматинская альтернативная метал-группа.</p>
+        <p>Каждый концерт AshVein — небольшое театральное представление. Группа поёт на английском языке.</p>
+      </div>
+      <img class="band-photo-placeholder band-photo-wide" src="images/band.jpg" alt="Группа AshVein" loading="lazy"
+        decoding="async">
+    </section>
+
+    <section class="band-members" aria-labelledby="membersTitle">
+      <div class="band-section-head">
+        <h2 id="membersTitle">Участники</h2>
+        <span>AshVein / Алматы</span>
+      </div>
+      <div class="member-grid">
+        <article class="member">
+          <img class="band-photo-placeholder member-photo" src="images/kir.jpg" alt="Кир, вокал AshVein" loading="lazy"
+            decoding="async">
+          <div class="member-meta"><span class="member-number">01</span>
+            <div>
+              <h3>Кир</h3>
+              <p>Вокал</p>
+            </div>
+          </div>
+        </article>
+        <article class="member">
+          <img class="band-photo-placeholder member-photo" src="images/danya.jpg" alt="Даня, гитара и вокал AshVein"
+            loading="lazy" decoding="async">
+          <div class="member-meta"><span class="member-number">02</span>
+            <div>
+              <h3>Даня</h3>
+              <p>Гитара, вокал</p>
+            </div>
+          </div>
+        </article>
+        <article class="member">
+          <img class="band-photo-placeholder member-photo" src="images/hassan.jpg" alt="Хасан, бас AshVein"
+            loading="lazy" decoding="async">
+          <div class="member-meta"><span class="member-number">03</span>
+            <div>
+              <h3>Хасан</h3>
+              <p>Бас</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="open-role">
+        <div><span class="open-role-label">Открытая позиция</span>
+          <h3>Второй гитарист</h3>
+        </div>
+        <p>Группа ищет второго гитариста.</p>
+      </div>
+    </section>
+  </main>
+
+  <main class="profile-page" id="profilePage" aria-labelledby="profileTitle">
+    <section>
+      <div class="band-section-head">
+        <div>
+          <div class="tag">Аккаунт AshVein</div>
+          <h1 id="profileTitle">Профиль</h1>
+        </div>
+        <button class="btn" type="button" data-page="shop">← В каталог</button>
+      </div>
+      <div class="profile-guest" id="profileGuest" hidden>
+        <p class="sub">Войдите, чтобы просмотреть и изменить данные своего профиля.</p>
+        <button class="btn red" id="profileSignIn" type="button">Войти</button>
+      </div>
+      <div class="profile-layout" id="profileContent" hidden>
+        <div class="profile-overview">
+          <span class="open-role-label">Пользователь</span>
+          <h2 id="profileDisplayName"></h2>
+          <p class="profile-email" id="profileEmail"></p>
+          <p class="profile-role" id="profileRole"></p>
+          <div class="profile-stats">
+            <div class="profile-stat"><strong id="profileCartCount">0</strong><span>В корзине</span></div>
+            <div class="profile-stat"><strong id="profileFavCount">0</strong><span>В избранном</span></div>
+          </div>
+        </div>
+        <form class="profile-form" id="profileForm">
+          <h2>Личные данные</h2>
+          <label for="profileNameInput">Имя</label>
+          <input id="profileNameInput" maxlength="100" autocomplete="nickname" required>
+          <label>Email</label>
+          <input id="profileEmailInput" type="email" readonly>
+          <div class="err" id="profileErr" role="status"></div>
+          <button class="btn red" type="submit">Сохранить имя</button>
+        </form>
+      </div>
+    </section>
+  </main>
 
   <section id="adminPanel" hidden>
     <h2>Добавить товар</h2>
@@ -574,6 +982,9 @@
       <input id="productPrice" type="number" min="1" max="100000000" step="1" required>
       <label for="productColor">Цвет (HEX)</label>
       <input id="productColor" value="#1a1a1a" pattern="#[0-9A-Fa-f]{6}" required>
+      <label for="productImage">Фото товара</label>
+      <input id="productImage" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <p class="sub">JPG, PNG или WebP, до 5 МБ.</p>
       <div class="err" id="productErr" role="status"></div>
       <button class="btn red" type="submit">Сохранить товар</button>
     </form>
@@ -601,31 +1012,35 @@
     </div>
   </div>
 
-  <div class="drawer" id="cartDr">
+  <main class="drawer page-view" id="cartDr" aria-labelledby="cartTitle">
     <div class="head">
-      <h2>Корзина</h2><button class="btn" data-close>✕</button>
+      <button class="btn" type="button" data-page="shop">← В каталог</button>
+      <h2 id="cartTitle">Корзина</h2>
     </div>
     <div class="list" id="cartList"></div>
     <div class="total"><span>Итого</span><b id="cartTot"></b></div><button class="btn red" id="buy">Оформить
       заказ</button>
-  </div>
-  <div class="drawer" id="favDr">
+  </main>
+  <main class="drawer page-view" id="favDr" aria-labelledby="favTitle">
     <div class="head">
-      <h2>Избранное</h2><button class="btn" data-close>✕</button>
+      <button class="btn" type="button" data-page="shop">← В каталог</button>
+      <h2 id="favTitle">Избранное</h2>
     </div>
     <div class="list" id="favList"></div>
-  </div>
+  </main>
   <div class="toast" id="toast"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-app-compat.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-auth-compat.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-firestore-compat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/10.12.2/firebase-storage-compat.min.js"></script>
   <script>
     // ===== FIREBASE: вставь свой конфиг из Firebase Console =====
-    const FIREBASE_CONFIG = { apiKey: "AIzaSyAc3AmOxOEs3wIjSOZ-f8J48rhxvnyLmy4", authDomain: "ashvein-ab1f6.firebaseapp.com", projectId: "ashvein-ab1f6", appId: "1:557942192610:web:35b0dcd8cca525b7a9e1bb", measurementId: "G-PR2W65NYV9" };
+    const FIREBASE_CONFIG = { apiKey: "AIzaSyAc3AmOxOEs3wIjSOZ-f8J48rhxvnyLmy4", authDomain: "ashvein-ab1f6.firebaseapp.com", projectId: "ashvein-ab1f6", storageBucket: "ashvein-ab1f6.firebasestorage.app", appId: "1:557942192610:web:35b0dcd8cca525b7a9e1bb", measurementId: "G-PR2W65NYV9" };
     // ============================================================
     const $ = s => document.querySelector(s);
     const kzt = n => n.toLocaleString('ru-RU') + ' ₸';
+    const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
     const CATS = [
       { id: 'tees', t: 'Футболки', s: 'Плотный хлопок. Принты, которые не стираются из памяти.', k: 'tee' },
       { id: 'hoodies', t: 'Худи', s: 'Тяжёлый футер для холодных подвалов и громких сетов.', k: 'hood' },
@@ -676,21 +1091,41 @@
 
       $('#grid').innerHTML = P
         .filter(product => id === 'all' || product.c === id)
-        .map(product => `<div class="card">
+        .map(product => {
+          const picture = product.imageUrl
+            ? `<img src="${escapeHTML(product.imageUrl)}" alt="${escapeHTML(product.n)}" loading="lazy">`
+            : art(product);
+          return `<div class="card">
       <button class="fav" data-fav="${product.id}" title="В избранное">♥</button>
-      <div class="pic">${art(product)}</div>
-      <div class="info"><h3>${product.n}</h3>
+      <div class="pic">${picture}</div>
+      <div class="info"><h3>${escapeHTML(product.n)}</h3>
       <span class="price">${kzt(product.p)}</span>
-      <div class="row"><button class="btn red" data-cart="${product.id}">В корзину</button></div>
+      <div class="row"><button class="btn red" data-cart="${product.id}">В корзину</button>${isAdmin ? `<button class="btn" type="button" data-product-photo="${product.id}">Фото</button><input type="file" accept="image/jpeg,image/png,image/webp" data-photo-input="${product.id}" hidden><button class="btn" data-delete-product="${product.id}" title="Удалить товар">Удалить</button>` : ''}</div>
       </div>
-    </div>`).join('');
+    </div>`;
+        }).join('');
 
       if (typeof render === 'function' && window.__ready) render();
     }
 
     document.querySelector('nav').addEventListener('click', e => {
+      const pageLink = e.target.closest('[data-page]');
+      if (pageLink) {
+        e.preventDefault();
+        return;
+      }
       const link = e.target.closest('[data-tab]');
-      if (link) setTab(link.dataset.tab);
+      if (!link) return;
+      e.preventDefault();
+      showPage('shop');
+      setTab(link.dataset.tab);
+      $('#catalog').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    $('.logo').addEventListener('click', e => {
+      e.preventDefault();
+      showPage('shop');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     async function loadProducts() {
@@ -723,8 +1158,8 @@
     // ---------- состояние ----------
     let user = null, cart = {}, favs = [], mode = 'signin';
     const useFB = !FIREBASE_CONFIG.apiKey.startsWith('YOUR') && window.firebase;
-    let auth, db;
-    if (useFB) { try { firebase.initializeApp(FIREBASE_CONFIG); auth = firebase.auth(); db = firebase.firestore(); } catch (e) { console.error(e) } }
+    let auth, db, storage;
+    if (useFB) { try { firebase.initializeApp(FIREBASE_CONFIG); auth = firebase.auth(); db = firebase.firestore(); storage = firebase.storage(); } catch (e) { console.error(e) } }
     if (db) loadProducts();
     const live = !!auth;
     $('#mode').textContent = live ? 'Auth: Firebase' : 'Демо-режим: данные хранятся локально (укажи Firebase-конфиг в коде)';
@@ -755,14 +1190,39 @@
     }
     function toast(m) { const t = $('#toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => t.style.display = 'none', 1800) }
 
+    function isValidProductImage(file) {
+      return file
+        && ['image/jpeg', 'image/png', 'image/webp'].includes(file.type)
+        && file.size <= 5 * 1024 * 1024;
+    }
+
+    async function uploadProductImage(productId, file) {
+      const fileName = file.name.toLowerCase().replace(/[^a-z0-9._-]/g, '_').slice(0, 120) || 'product-image';
+      const imagePath = `products/${productId}/${Date.now()}_${fileName}`;
+      const imageRef = storage.ref(imagePath);
+      const upload = await imageRef.put(file, { contentType: file.type });
+
+      try {
+        return {
+          imagePath,
+          imageUrl: await upload.ref.getDownloadURL(),
+          imageRef: upload.ref
+        };
+      } catch (error) {
+        await upload.ref.delete().catch(cleanupError => console.error('Не удалось удалить временное изображение:', cleanupError));
+        throw error;
+      }
+    }
+
     $('#productForm').addEventListener('submit', async e => {
       e.preventDefault();
-      if (!isAdmin || !db) return;
+      if (!isAdmin || !db || !storage) return;
 
       const name = $('#productName').value.trim();
       const category = $('#productCategory').value;
       const price = Number($('#productPrice').value);
       const color = $('#productColor').value.trim();
+      const imageFile = $('#productImage').files[0];
       const error = $('#productErr');
       error.textContent = '';
 
@@ -770,13 +1230,29 @@
         error.textContent = 'Проверь название, цену и HEX-цвет.';
         return;
       }
+      if (!isValidProductImage(imageFile)) {
+        error.textContent = 'Выбери JPG, PNG или WebP размером до 5 МБ.';
+        return;
+      }
 
       const submit = $('#productForm').querySelector('[type="submit"]');
       submit.disabled = true;
+      let imageRef;
+      let imageUploaded = false;
       try {
         const ids = P.map(product => product.id).filter(Number.isSafeInteger);
         const id = ids.length ? Math.max(...ids) + 1 : 1;
-        const product = { c: category, n: name, p: price, col: color };
+        const uploadedImage = await uploadProductImage(id, imageFile);
+        imageRef = uploadedImage.imageRef;
+        imageUploaded = true;
+        const product = {
+          c: category,
+          n: name,
+          p: price,
+          col: color,
+          imagePath: uploadedImage.imagePath,
+          imageUrl: uploadedImage.imageUrl
+        };
         await db.collection('products').doc(String(id)).set(product);
         P.push({ id, ...product });
         renderCatalog();
@@ -786,11 +1262,85 @@
         toast('Товар добавлен');
       } catch (saveError) {
         console.error('Не удалось сохранить товар:', saveError);
+        if (imageUploaded && imageRef) {
+          try {
+            await imageRef.delete();
+          } catch (cleanupError) {
+            console.error('Не удалось удалить временное изображение:', cleanupError);
+          }
+        }
         error.textContent = 'Не удалось сохранить товар. Проверь подключение и права.';
       } finally {
         submit.disabled = false;
       }
     });
+
+    async function updateProductImage(productId, file) {
+      if (!isAdmin || !db || !storage) return;
+      if (!isValidProductImage(file)) {
+        toast('Выбери JPG, PNG или WebP размером до 5 МБ.');
+        return;
+      }
+
+      const product = P.find(item => String(item.id) === productId);
+      if (!product) return;
+
+      let uploadedImage;
+      try {
+        uploadedImage = await uploadProductImage(productId, file);
+        await db.collection('products').doc(productId).update({
+          imagePath: uploadedImage.imagePath,
+          imageUrl: uploadedImage.imageUrl
+        });
+
+        const oldImagePath = product.imagePath;
+        P = P.map(item => String(item.id) === productId
+          ? { ...item, imagePath: uploadedImage.imagePath, imageUrl: uploadedImage.imageUrl }
+          : item);
+
+        if (oldImagePath) {
+          try {
+            await storage.ref(oldImagePath).delete();
+          } catch (error) {
+            console.error('Не удалось удалить старый файл изображения:', error);
+          }
+        }
+
+        renderCatalog();
+        render();
+        toast('Фото обновлено');
+      } catch (error) {
+        console.error('Не удалось обновить фото товара:', error);
+        if (uploadedImage) {
+          await uploadedImage.imageRef.delete().catch(cleanupError => console.error('Не удалось удалить новое изображение:', cleanupError));
+        }
+        toast('Не удалось сохранить фото. Проверь подключение и права.');
+      }
+    }
+
+    async function deleteProduct(productId) {
+      if (!isAdmin || !db) return;
+      const product = P.find(item => String(item.id) === productId);
+      if (!product || !window.confirm(`Удалить товар «${product.n}»?`)) return;
+
+      try {
+        await db.collection('products').doc(productId).delete();
+        P = P.filter(item => String(item.id) !== productId);
+        if (product.imagePath && storage) {
+          try {
+            await storage.ref(product.imagePath).delete();
+          } catch (storageError) {
+            console.error('Не удалось удалить файл изображения:', storageError);
+          }
+        }
+        renderCatalog();
+        render();
+        toast('Товар удалён');
+      } catch (error) {
+        console.error('Не удалось удалить товар:', error);
+        toast('Не удалось удалить товар. Проверь права доступа.');
+      }
+    }
 
     // ---------- валидация пароля ----------
     function checkPass(p) { return { up: /[A-ZА-ЯЁ]/.test(p), dg: /\d/.test(p), uq: p.length > 0 && new Set([...p]).size === p.length } }
@@ -850,28 +1400,126 @@
         isAdmin = false;
         $('#adminPanel').hidden = true;
       }
+      if (P.length) setTab(tab);
       render();
     }
     if (live) auth.onAuthStateChanged(async u => { if (u) await setUser({ uid: u.uid, email: u.email, name: u.displayName || u.email.split('@')[0] }); else setUser(null) });
     else { const em = LS.g('av_session'), us = LS.g('av_users') || {}; if (em && us[em]) setUser({ uid: us[em].uid, email: em, name: us[em].name }); else render() }
     $('#authBtn').onclick = async () => { if (user) { if (live) await auth.signOut(); else { LS.s('av_session', null); await setUser(null) } toast('Ты вышел') } else openAuth(false) };
 
+    $('#profileBtn').onclick = () => { if (need()) showPage('profile') };
+    $('#profileSignIn').onclick = () => openAuth(false);
+    $('#profileForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const error = $('#profileErr');
+      const name = $('#profileNameInput').value.trim();
+      error.textContent = '';
+      if (!user) return openAuth(true);
+      if (!name || name.length > 100) {
+        error.textContent = 'Имя должно содержать от 1 до 100 символов.';
+        return;
+      }
+
+      const submit = $('#profileForm').querySelector('[type="submit"]');
+      submit.disabled = true;
+      try {
+        if (live) {
+          await db.collection('users').doc(user.uid).set({
+            email: user.email,
+            name,
+            cart,
+            favs
+          }, { merge: true });
+          await auth.currentUser.updateProfile({ displayName: name });
+        } else {
+          const users = LS.g('av_users') || {};
+          const email = user.email.toLowerCase();
+          if (users[email]) {
+            users[email] = { ...users[email], name };
+            LS.s('av_users', users);
+          }
+        }
+
+        user = { ...user, name };
+        render();
+        toast('Профиль сохранён');
+      } catch (saveError) {
+        console.error('Не удалось обновить профиль:', saveError);
+        error.textContent = 'Не удалось сохранить изменения. Проверьте соединение.';
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
     // ---------- корзина / избранное ----------
     const need = () => { if (!user) { openAuth(true); return false } return true };
+    function pageFromUrl() {
+      const page = new URLSearchParams(window.location.search).get('view');
+      return page === 'cart' || page === 'favorites' || page === 'about' || page === 'profile' ? page : 'shop';
+    }
+
+    function showPage(page, pushHistory = true) {
+      const activePage = page === 'cart' || page === 'favorites' || page === 'about' || page === 'profile' ? page : 'shop';
+      document.body.classList.toggle('page-cart', activePage === 'cart');
+      document.body.classList.toggle('page-favorites', activePage === 'favorites');
+      document.body.classList.toggle('page-about', activePage === 'about');
+      document.body.classList.toggle('page-profile', activePage === 'profile');
+      $('#cartDr').classList.toggle('open', activePage === 'cart');
+      $('#favDr').classList.toggle('open', activePage === 'favorites');
+
+      if (pushHistory) {
+        const url = new URL(window.location.href);
+        if (activePage === 'shop') url.searchParams.delete('view');
+        else url.searchParams.set('view', activePage);
+        window.history.pushState({ view: activePage }, '', url);
+      }
+
+      if (activePage === 'shop') {
+        if (P.length) setTab(tab);
+      } else if (activePage === 'profile') {
+        renderProfile();
+      } else if (activePage !== 'about') {
+        render();
+      }
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    window.addEventListener('popstate', () => showPage(pageFromUrl(), false));
+    document.addEventListener('change', e => {
+      const input = e.target.closest('[data-photo-input]');
+      if (!input || !input.files[0]) return;
+      updateProductImage(input.dataset.photoInput, input.files[0]);
+      input.value = '';
+    });
     document.addEventListener('click', e => {
+      const photoButton = e.target.closest('[data-product-photo]');
+      if (photoButton) {
+        document.querySelector(`[data-photo-input="${photoButton.dataset.productPhoto}"]`).click();
+        return;
+      }
+
+      const deleteButton = e.target.closest('[data-delete-product]');
+      if (deleteButton) {
+        if (isAdmin) deleteProduct(deleteButton.dataset.deleteProduct);
+        return;
+      }
+
       const c = e.target.closest('[data-cart]'), f = e.target.closest('[data-fav]');
       if (c && need()) { cart[c.dataset.cart] = (cart[c.dataset.cart] || 0) + 1; saveData(); render(); toast('Добавлено в корзину') }
       if (f && need()) { const id = +f.dataset.fav; favs = favs.includes(id) ? favs.filter(x => x !== id) : [...favs, id]; saveData(); render() }
       const q = e.target.closest('[data-q]'); if (q) { const [id, d] = q.dataset.q.split(':'); cart[id] = (cart[id] || 0) + +d; if (cart[id] <= 0) delete cart[id]; saveData(); render() }
       const rf = e.target.closest('[data-rf]'); if (rf) { favs = favs.filter(x => x !== +rf.dataset.rf); saveData(); render() }
-      if (e.target.closest('[data-close]')) document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open'));
+      const pageLink = e.target.closest('[data-page]');
+      if (pageLink) showPage(pageLink.dataset.page);
     });
-    const drawer = id => { if (!need()) return; document.querySelectorAll('.drawer').forEach(d => d.classList.remove('open')); $(id).classList.add('open') };
-    $('#cartBtn').onclick = () => drawer('#cartDr'); $('#favBtn').onclick = () => drawer('#favDr');
+    $('#cartBtn').onclick = () => { if (need()) showPage('cart') };
+    $('#favBtn').onclick = () => { if (need()) showPage('favorites') };
     $('#buy').onclick = () => { if (!Object.keys(cart).length) return toast('Корзина пуста'); cart = {}; saveData(); render(); toast('Заказ оформлен (демо)') };
     const th = p => `<div class="th">${art(p)}</div>`;
     function render() {
       $('#authBtn').textContent = user ? 'Выйти' : 'Войти'; $('#userLbl').textContent = user ? user.name : '';
+      $('#profileBtn').hidden = !user;
+      renderProfile();
       const ids = Object.keys(cart), n = ids.reduce((a, i) => a + cart[i], 0);
       $('#cartCnt').textContent = n; $('#favCnt').textContent = favs.length;
       document.querySelectorAll('[data-fav]').forEach(b => b.classList.toggle('on', favs.includes(+b.dataset.fav)));
@@ -886,7 +1534,22 @@
         return `<div class="item">${th(p)}<div class="n">${p.n}<br><small>${kzt(p.p)}</small></div><button class="btn red" data-cart="${i}">＋</button><button class="btn" data-rf="${i}">✕</button></div>`
       }).join('') : '<p class="sub">Пока пусто.</p>';
     }
-    window.__ready = 1; render(); showRules(); setMode('signin');
+
+    function renderProfile() {
+      const signedIn = !!user;
+      $('#profileGuest').hidden = signedIn;
+      $('#profileContent').hidden = !signedIn;
+      if (!signedIn) return;
+
+      $('#profileDisplayName').textContent = user.name;
+      $('#profileEmail').textContent = user.email;
+      $('#profileEmailInput').value = user.email;
+      $('#profileRole').textContent = isAdmin ? 'Администратор' : 'Покупатель';
+      $('#profileCartCount').textContent = Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
+      $('#profileFavCount').textContent = favs.length;
+      if (document.activeElement !== $('#profileNameInput')) $('#profileNameInput').value = user.name;
+    }
+    window.__ready = 1; render(); showRules(); setMode('signin'); showPage(pageFromUrl(), false);
   </script>
 </body>
 
